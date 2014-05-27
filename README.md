@@ -47,8 +47,8 @@ gamepad.on('button_1', { once: true }, function () {
 ```javascript
 var gamepad = new Gamepad();
 
-gamepad.on('button_1', function (button) {
-    console.log(button + ' was pressed!');
+gamepad.on('button_1', function (e) {
+    console.log(e.button + ' was pressed!');
 });
 ```
 
@@ -59,8 +59,8 @@ gamepad.on('button_1', function (button) {
 ```javascript
 var gamepad = new Gamepad();
 
-gamepad.on('button_1', function (button, player) {
-    console.log('controller ' + player + ' pressed ' + button + '!');
+gamepad.on('button_1', function (e) {
+    console.log('controller ' + e.player + ' pressed ' + e.button + '!');
 });
 ```
 

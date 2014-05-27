@@ -1,9 +1,9 @@
 /*!
- * gamepad.js v0.0.1-alpha
+ * gamepad.js v0.0.2-alpha
  * https://github.com/neogeek/gamepad.js
  *
  * Copyright (c) 2014 Scott Doxey
- * Dual-licensed under both MIT and BSD licenses.
+ * Released under the MIT license
  */
 
 (function () {
@@ -11,7 +11,7 @@
     'use strict';
 
     var keyMapping = {
-        'default': {
+        'standard': {
             'button_1': 0,
             'button_2': 1,
             'button_3': 2,
@@ -32,16 +32,6 @@
         }
     };
 
-    function getGamepadType(id) {
-
-        if (id.match(/PLAYSTATION\(R\)3/i) || id.match(/Wireless 360 Controller/i)) {
-
-            return 'default';
-
-        }
-
-    }
-
     function Gamepad() {
 
         this.listeners = [];
@@ -55,11 +45,11 @@
 
     Gamepad.prototype._handleController = function (controller, player) {
 
-        var keys = keyMapping[getGamepadType(controller.id)];
+        var keys = keyMapping[controller.mapping];
 
         this.listeners.forEach((function (listener) {
 
-            if (controller.buttons[keys[listener.button]] && String(typeof listener.callback) === 'function') {
+            if (controller.buttons[keys[listener.button]].pressed && typeof listener.callback === 'function') {
 
                 if (!this.activeButtons[player][listener.button]) {
 
@@ -87,7 +77,11 @@
 
                 this.activeButtons[player][listener.button].triggered = true;
 
-                listener.callback(listener.button, player);
+                listener.callback({
+                    button: listener.button,
+                    value: controller.buttons[keys[listener.button]].value,
+                    player: player
+                });
 
             } else if (this.activeButtons[player][listener.button]) {
 
@@ -101,14 +95,15 @@
 
     Gamepad.prototype._loop = function () {
 
-        var controllers = window.navigator.webkitGetGamepads(),
-            i;
+        var controllers = window.navigator.getGamepads(),
+            i,
+            length;
 
         this.activeControllers = [];
 
-        for (i = 0; i < controllers.length; i = i + 1) {
+        for (i = 0, length = controllers.length; i < length; i = i + 1) {
 
-            if (controllers[i] && controllers[i].id) {
+            if (controllers[i] && controllers[i].connected) {
 
                 if (!this.activeButtons[i]) {
 
@@ -130,7 +125,7 @@
 
     Gamepad.prototype.on = function (button, options, callback) {
 
-        if (String(typeof options) === 'function' && String(typeof callback) === 'undefined') {
+        if (typeof options === 'function' && callback === undefined) {
 
             callback = options;
 
@@ -160,9 +155,13 @@
 
     };
 
-    if (String(typeof window.define) === 'function' && window.define.hasOwnProperty('amd')) {
+    if (typeof define === 'function' && define.amd !== undefined) {
 
-        window.define([], function () { return Gamepad; });
+        define([], Gamepad);
+
+    } else if (typeof module === 'object' && module.exports !== undefined) {
+
+        module.exports = Gamepad;
 
     } else {
 
