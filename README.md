@@ -64,7 +64,26 @@ gamepad.on('button_1', function (e) {
 });
 ```
 
+##Custom Mapping
+
+> Sets custom key mapping.
+
+```javascript
+var gamepad = new Gamepad();
+
+gamepad.setCustomMapping('keyboard', {
+    'button_1': 32,
+    'start': 27,
+    'd_pad_up': 38,
+    'd_pad_down': 40,
+    'd_pad_left': 37,
+    'd_pad_right': 39
+});
+```
+
 ##Buttons
+
+###Gamepads
 
 - **button_1** - A (XBOX) / X (PS3)
 - **button_2** - B (XBOX) / Circle (PS3)
@@ -83,6 +102,15 @@ gamepad.on('button_1', function (e) {
 - **d_pad_left** - Left on the D-Pad (XBOX/PS3)
 - **d_pad_right** - Right on the D-Pad (XBOX/PS3)
 - **vendor** - XBOX Button (XBOX) / Playstation Button (PS3)
+
+###Keyboard
+
+- **button_1** - SPACE
+- **start** - ESC
+- **d_pad_up** - Up Arrow
+- **d_pad_down** - Down Arrow
+- **d_pad_left** - Left Arrow
+- **d_pad_right** - Right Arrow
 
 ##Support
 
