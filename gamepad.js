@@ -3,12 +3,18 @@
  * https://github.com/neogeek/gamepad.js
  *
  * Copyright (c) 2014 Scott Doxey
- * Released under the MIT license
+ * Released under the MIT license.
  */
 
 (function () {
 
     'use strict';
+
+    function isArray(obj) {
+
+        return Object.prototype.toString.call(obj) === '[object Array]' ? true : false;
+
+    }
 
     function Gamepad() {
 
@@ -45,10 +51,10 @@
             keyboard: {
                 'button_1': 32,
                 'start': 27,
-                'd_pad_up': 38,
-                'd_pad_down': 40,
-                'd_pad_left': 37,
-                'd_pad_right': 39
+                'd_pad_up': [38, 87],
+                'd_pad_down': [40, 83],
+                'd_pad_left': [37, 65],
+                'd_pad_right': [39, 68]
             }
         };
 
@@ -72,15 +78,34 @@
 
         this._listeners.forEach(function (listener) {
 
-            var button = controller.buttons[keys[listener.button]];
+            var button = keys[listener.button],
+                pressed = false;
 
-            if (!button.pressed || self._activeInputs.gamepad[player][keys[listener.button]] === undefined) {
+            if (isArray(button)) {
 
-                self._activeInputs.gamepad[player][keys[listener.button]] = {};
+                button.forEach(function (button) {
+
+                    if (controller.buttons[button].pressed) {
+
+                        pressed = true;
+
+                    }
+
+                });
 
             } else {
 
-                self._handleListener(listener, self._activeInputs.gamepad[player][keys[listener.button]], {
+                pressed = controller.buttons[button].pressed;
+
+            }
+
+            if (!pressed || self._activeInputs.gamepad[player][listener.button] === undefined) {
+
+                self._activeInputs.gamepad[player][listener.button] = {};
+
+            } else {
+
+                self._handleListener(listener, self._activeInputs.gamepad[player][listener.button], {
                     button: listener.button,
                     player: player,
                     event: button
@@ -99,15 +124,35 @@
 
         this._listeners.forEach(function (listener) {
 
-            var button = keys[listener.button];
+            var button = keys[listener.button],
+                pressed = false;
 
-            if (self._activeKeys.indexOf(button) === -1 || self._activeInputs.keyboard[button] === undefined) {
+            if (isArray(button)) {
 
-                self._activeInputs.keyboard[button] = {};
+                keys[listener.button].forEach(function (key) {
+
+                    if (self._activeKeys.indexOf(key) !== -1) {
+
+                        pressed = true;
+                        button = key;
+
+                    }
+
+                });
 
             } else {
 
-                self._handleListener(listener, self._activeInputs.keyboard[button], {
+                pressed = self._activeKeys.indexOf(button) !== -1;
+
+            }
+
+            if (!pressed || self._activeInputs.keyboard[listener.button] === undefined) {
+
+                self._activeInputs.keyboard[listener.button] = {};
+
+            } else {
+
+                self._handleListener(listener, self._activeInputs.keyboard[listener.button], {
                     button: listener.button,
                     player: 'keyboard',
                     event: {
@@ -141,23 +186,25 @@
 
             data.delay = data.delay - 1;
 
-            return false;
-
         } else if (listener.options.delay) {
 
             data.delay = listener.options.delay;
 
         }
 
-        if (data.triggered && listener.options.once) {
+        if (!listener.options.once) {
 
-            return false;
+            data.triggered = false;
 
         }
 
-        data.triggered = true;
+        if (!data.delay && !data.triggered) {
 
-        listener.callback.call(this, e);
+            data.triggered = true;
+
+            listener.callback.call(this, e);
+
+        }
 
     };
 
