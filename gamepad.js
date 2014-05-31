@@ -264,6 +264,26 @@
 
     };
 
+    Gamepad.prototype.trigger = function (button) {
+
+        var self = this;
+
+        self._listeners.forEach(function (listener) {
+
+            if (listener.button === button) {
+
+                listener.callback({
+                    button: listener.button,
+                    player: null,
+                    event: {}
+                });
+
+            }
+
+        });
+
+    };
+
     Gamepad.prototype.setCustomMapping = function (device, config) {
 
         if (this._keyMapping[device] !== undefined) {
