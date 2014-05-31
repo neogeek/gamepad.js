@@ -74,10 +74,10 @@ var gamepad = new Gamepad();
 gamepad.setCustomMapping('keyboard', {
     'button_1': 32,
     'start': 27,
-    'd_pad_up': 38,
-    'd_pad_down': 40,
-    'd_pad_left': 37,
-    'd_pad_right': 39
+    'd_pad_up': [38, 87],
+    'd_pad_down': [40, 83],
+    'd_pad_left': [37, 65],
+    'd_pad_right': [39, 68]
 });
 ```
 
@@ -107,10 +107,10 @@ gamepad.setCustomMapping('keyboard', {
 
 - **button_1** - SPACE
 - **start** - ESC
-- **d_pad_up** - Up Arrow
-- **d_pad_down** - Down Arrow
-- **d_pad_left** - Left Arrow
-- **d_pad_right** - Right Arrow
+- **d_pad_up** - Up Arrow, W
+- **d_pad_down** - Down Arrow, S
+- **d_pad_left** - Left Arrow, A
+- **d_pad_right** - Right Arrow, D
 
 ##Support
 
