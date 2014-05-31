@@ -86,7 +86,7 @@
                     released: false
                 };
 
-            } else if (e.type === 'keyup') {
+            } else if (e.type === 'keyup' && this._events.keyboard[key]) {
 
                 this._events.keyboard[key].released = true;
                 this._events.keyboard[key].hold = false;
