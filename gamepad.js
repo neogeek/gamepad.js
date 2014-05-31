@@ -16,6 +16,32 @@
 
     }
 
+    function testButtonPressed(e, threshold) {
+
+        var pressed = false;
+
+        if (typeof e === 'object') {
+
+            if (e.pressed) {
+
+                pressed = true;
+
+            }
+
+        } else if (typeof e === 'number') {
+
+            if (e > threshold) {
+
+                pressed = true;
+
+            }
+
+        }
+
+        return pressed;
+
+    }
+
     function Gamepad() {
 
         this._threshold = 1.0;
@@ -76,7 +102,7 @@
 
         }
 
-        this._listeners.forEach(function (listener) {
+        self._listeners.forEach(function (listener) {
 
             var button = keys[listener.button],
                 pressed = false;
@@ -85,29 +111,13 @@
 
                 button.forEach(function (button) {
 
-                    if (typeof controller.buttons[button] === 'object') {
-
-                        if (controller.buttons[button].pressed) {
-
-                            pressed = true;
-
-                        }
-
-                    } else if (typeof controller.buttons[button] === 'number') {
-
-                        if (controller.buttons[button] > self._threshold) {
-
-                            pressed = true;
-
-                        }
-
-                    }
+                    pressed = testButtonPressed(controller.buttons[button], self._threshold) || pressed;
 
                 });
 
             } else {
 
-                pressed = controller.buttons[button].pressed;
+                pressed = testButtonPressed(controller.buttons[button], self._threshold) || pressed;
 
             }
 
@@ -120,7 +130,9 @@
                 self._handleListener(listener, self._activeInputs.gamepad[player][listener.button], {
                     button: listener.button,
                     player: player,
-                    event: button
+                    event: {
+                        buttonKey: button
+                    }
                 });
 
             }
