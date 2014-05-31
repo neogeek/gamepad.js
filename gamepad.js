@@ -18,6 +18,8 @@
 
     function Gamepad() {
 
+        this._threshold = 1.0;
+
         this._listeners = [];
 
         this._activeKeys = [];
@@ -28,25 +30,23 @@
 
         this._keyMapping = {
             gamepad: {
-                'standard': {
-                    'button_1': 0,
-                    'button_2': 1,
-                    'button_3': 2,
-                    'button_4': 3,
-                    'shoulder_top_left': 4,
-                    'shoulder_top_right': 5,
-                    'shoulder_bottom_left': 6,
-                    'shoulder_bottom_right': 7,
-                    'select': 8,
-                    'start': 9,
-                    'stick_button_left': 10,
-                    'stick_button_right': 11,
-                    'd_pad_up': 12,
-                    'd_pad_down': 13,
-                    'd_pad_left': 14,
-                    'd_pad_right': 15,
-                    'vendor': 16
-                }
+                'button_1': 0,
+                'button_2': 1,
+                'button_3': 2,
+                'button_4': 3,
+                'shoulder_top_left': 4,
+                'shoulder_top_right': 5,
+                'shoulder_bottom_left': 6,
+                'shoulder_bottom_right': 7,
+                'select': 8,
+                'start': 9,
+                'stick_button_left': 10,
+                'stick_button_right': 11,
+                'd_pad_up': 12,
+                'd_pad_down': 13,
+                'd_pad_left': 14,
+                'd_pad_right': 15,
+                'vendor': 16
             },
             keyboard: {
                 'button_1': 32,
@@ -68,7 +68,7 @@
     Gamepad.prototype._handleGamepad = function (controller, player) {
 
         var self = this,
-            keys = self._keyMapping.gamepad[controller.mapping];
+            keys = self._keyMapping.gamepad;
 
         if (self._activeInputs.gamepad[player] === undefined) {
 
@@ -85,9 +85,21 @@
 
                 button.forEach(function (button) {
 
-                    if (controller.buttons[button].pressed) {
+                    if (typeof controller.buttons[button] === 'object') {
 
-                        pressed = true;
+                        if (controller.buttons[button].pressed) {
+
+                            pressed = true;
+
+                        }
+
+                    } else if (typeof controller.buttons[button] === 'number') {
+
+                        if (controller.buttons[button] > self._threshold) {
+
+                            pressed = true;
+
+                        }
 
                     }
 
