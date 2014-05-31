@@ -78,20 +78,13 @@
 
         if (key) {
 
-            if (!this._events.keyboard[key]) {
+            if (e.type === 'keydown' && !this._events.keyboard[key]) {
 
                 this._events.keyboard[key] = {
-                    pressed: false,
+                    pressed: true,
                     hold: false,
                     released: false
                 };
-
-            }
-
-            if (e.type === 'keydown' && !this._events.keyboard[key].hold) {
-
-                this._events.keyboard[key].pressed = true;
-                this._events.keyboard[key].hold = false;
 
             } else if (e.type === 'keyup') {
 
@@ -121,7 +114,7 @@
 
             this.trigger('release', key);
 
-            this._events.keyboard[key].released = false;
+            delete this._events.keyboard[key];
 
         }
 
