@@ -225,6 +225,20 @@
 
     };
 
+    Gamepad.prototype.setCustomMapping = function (device, config) {
+
+        if (this._keyMapping[device] !== undefined) {
+
+            this._keyMapping[device] = config;
+
+        } else {
+
+            throw new Error('The device "' + device + '" is not supported through gamepad.js');
+
+        }
+
+    };
+
     Gamepad.prototype.trigger = function (type, button, value, player) {
 
         this._listeners.forEach(function (listener) {
