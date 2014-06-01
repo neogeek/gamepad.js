@@ -110,14 +110,20 @@
 
                 if (key) {
 
-                    if (button.pressed && !self._events.gamepad[controller.index][key]) {
+                    if (button.pressed) {
 
-                        self._events.gamepad[controller.index][key] = {
-                            pressed: true,
-                            hold: false,
-                            released: false,
-                            player: controller.index
-                        };
+                        if (!self._events.gamepad[controller.index][key]) {
+
+                            self._events.gamepad[controller.index][key] = {
+                                pressed: true,
+                                hold: false,
+                                released: false,
+                                player: controller.index
+                            };
+
+                        }
+
+                        self._events.gamepad[controller.index][key].value = button.value;
 
                     } else if (!button.pressed && self._events.gamepad[controller.index][key]) {
 
@@ -163,18 +169,18 @@
 
         if (events[key].pressed) {
 
-            this.trigger('press', key, player);
+            this.trigger('press', key, events[key].value, player);
 
             events[key].pressed = false;
             events[key].hold = true;
 
         } else if (events[key].hold) {
 
-            this.trigger('hold', key, player);
+            this.trigger('hold', key, events[key].value, player);
 
         } else if (events[key].released) {
 
-            this.trigger('release', key, player);
+            this.trigger('release', key, events[key].value, player);
 
             delete events[key];
 
@@ -219,7 +225,7 @@
 
     };
 
-    Gamepad.prototype.trigger = function (type, button, player) {
+    Gamepad.prototype.trigger = function (type, button, value, player) {
 
         this._listeners.forEach(function (listener) {
 
@@ -228,6 +234,7 @@
                 listener.callback({
                     type: listener.type,
                     button: listener.button,
+                    value: value,
                     player: player,
                     event: listener
                 });
