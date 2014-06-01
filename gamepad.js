@@ -226,7 +226,8 @@
             if (listener.type === type && listener.button === button) {
 
                 listener.callback({
-                    button: button,
+                    type: listener.type,
+                    button: listener.button,
                     player: player,
                     event: listener
                 });
