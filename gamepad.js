@@ -53,6 +53,13 @@
             keyboard: {}
         };
 
+        this._handlers = {
+            gamepad: {
+                connect: null,
+                disconnect: null
+            }
+        };
+
         this._keyMapping = {
             gamepad: {
                 'button_1': 0,
@@ -92,17 +99,31 @@
 
     }
 
+    Gamepad.prototype._handleGamepadConnected = function (index) {
+
+        if (this._handlers.gamepad.connect) {
+
+            this._handlers.gamepad.connect({ index: index });
+
+        }
+
+    };
+
+    Gamepad.prototype._handleGamepadDisconnected = function (index) {
+
+        if (this._handlers.gamepad.disconnect) {
+
+            this._handlers.gamepad.disconnect({ index: index });
+
+        }
+
+    };
+
     Gamepad.prototype._handleGamepadEventListener = function (controller) {
 
         var self = this;
 
-        if (controller.connected) {
-
-            if (!self._events.gamepad[controller.index]) {
-
-                self._events.gamepad[controller.index] = {};
-
-            }
+        if (controller && controller.connected) {
 
             controller.buttons.forEach(function (button, index) {
 
@@ -190,9 +211,34 @@
 
     Gamepad.prototype._loop = function () {
 
-        var self = this;
+        var self = this,
+            gamepads = window.navigator.getGamepads(),
+            length = 4, // length = gamepads.length;
+            i;
 
-        Array.prototype.slice.call(window.navigator.getGamepads()).forEach(self._handleGamepadEventListener.bind(self));
+        for (i = 0; i < length; i = i + 1) {
+
+            if (gamepads[i]) {
+
+                if (!self._events.gamepad[i]) {
+
+                    self._handleGamepadConnected(i);
+
+                    self._events.gamepad[i] = {};
+
+                }
+
+                self._handleGamepadEventListener(gamepads[i]);
+
+            } else if (self._events.gamepad[i]) {
+
+                self._handleGamepadDisconnected(i);
+
+                self._events.gamepad[i] = null;
+
+            }
+
+        }
 
         Object.keys(self._events.keyboard).forEach(function (key) {
 
@@ -202,11 +248,15 @@
 
         self._events.gamepad.forEach(function (gamepad, player) {
 
-            Object.keys(gamepad).forEach(function (key) {
+            if (gamepad) {
 
-                self._handleEvent(key, gamepad, player);
+                Object.keys(gamepad).forEach(function (key) {
 
-            });
+                    self._handleEvent(key, gamepad, player);
+
+                });
+
+            }
 
         });
 
@@ -215,6 +265,12 @@
     };
 
     Gamepad.prototype.on = function (type, button, callback, options) {
+
+        if (this._handlers[button] && this._handlers[button][type] !== undefined && typeof callback === 'function') {
+
+            this._handlers[button][type] = callback;
+
+        }
 
         this._listeners.push({
             type: type,

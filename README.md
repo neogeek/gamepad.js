@@ -4,6 +4,30 @@
 
 ##Setup
 
+###Controller Connected
+
+```javascript
+var gamepad = new Gamepad();
+
+gamepad.on('connect', 'gamepad', function (e) {
+
+    console.log('controller ' + e.index + ' connected!');
+
+});
+```
+
+###Controller Disonnected
+
+```javascript
+var gamepad = new Gamepad();
+
+gamepad.on('disconnect', 'gamepad', function (e) {
+
+    console.log('controller ' + e.index + ' disconnected!');
+
+});
+```
+
 ###Press
 
 ```javascript
