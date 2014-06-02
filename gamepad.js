@@ -266,18 +266,22 @@
 
     Gamepad.prototype.on = function (type, button, callback, options) {
 
-        if (this._handlers[button] && this._handlers[button][type] !== undefined && typeof callback === 'function') {
+        if (Object.keys(this._handlers.gamepad).indexOf(type) !== -1 && typeof button === 'function') {
 
-            this._handlers[button][type] = callback;
+            this._handlers.gamepad[type] = button;
+
+            this._events.gamepad = [];
+
+        } else {
+
+            this._listeners.push({
+                type: type,
+                button: button,
+                callback: callback,
+                options: options
+            });
 
         }
-
-        this._listeners.push({
-            type: type,
-            button: button,
-            callback: callback,
-            options: options
-        });
 
     };
 

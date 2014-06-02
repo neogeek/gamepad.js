@@ -9,10 +9,8 @@
 ```javascript
 var gamepad = new Gamepad();
 
-gamepad.on('connect', 'gamepad', function (e) {
-
+gamepad.on('connect', function (e) {
     console.log('controller ' + e.index + ' connected!');
-
 });
 ```
 
@@ -21,10 +19,8 @@ gamepad.on('connect', 'gamepad', function (e) {
 ```javascript
 var gamepad = new Gamepad();
 
-gamepad.on('disconnect', 'gamepad', function (e) {
-
+gamepad.on('disconnect', function (e) {
     console.log('controller ' + e.index + ' disconnected!');
-
 });
 ```
 
