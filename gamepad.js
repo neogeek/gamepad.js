@@ -96,12 +96,9 @@
 
         this._listeners = [];
 
-        this._requestAnimation = _requestAnimationFrame(this._loop.bind(this));
-
         this._handleKeyboardEventListener = this._handleKeyboardEventListener.bind(this);
 
-        document.addEventListener('keydown', this._handleKeyboardEventListener);
-        document.addEventListener('keyup', this._handleKeyboardEventListener);
+        this.resume();
 
     }
 
@@ -266,7 +263,11 @@
 
         });
 
-        self._requestAnimation = _requestAnimationFrame(self._loop.bind(self));
+        if (self._requestAnimation) {
+
+            self._requestAnimation = _requestAnimationFrame(self._loop.bind(self));
+
+        }
 
     };
 
@@ -307,30 +308,51 @@
 
     Gamepad.prototype.trigger = function (type, button, value, player) {
 
-        this._listeners.forEach(function (listener) {
+        if (this._listeners) {
 
-            if (listener.type === type && listener.button === button) {
+            this._listeners.forEach(function (listener) {
 
-                listener.callback({
-                    type: listener.type,
-                    button: listener.button,
-                    value: value,
-                    player: player,
-                    event: listener
-                });
+                if (listener.type === type && listener.button === button) {
 
-            }
+                    listener.callback({
+                        type: listener.type,
+                        button: listener.button,
+                        value: value,
+                        player: player,
+                        event: listener
+                    });
 
-        });
+                }
+
+            });
+
+        }
+
+    };
+
+    Gamepad.prototype.pause = function () {
+
+        _cancelAnimationFrame(this._requestAnimation);
+
+        this._requestAnimation = null;
+
+        document.removeEventListener('keydown', this._handleKeyboardEventListener);
+        document.removeEventListener('keyup', this._handleKeyboardEventListener);
+
+    };
+
+    Gamepad.prototype.resume = function () {
+
+        this._requestAnimation = _requestAnimationFrame(this._loop.bind(this));
+
+        document.addEventListener('keydown', this._handleKeyboardEventListener);
+        document.addEventListener('keyup', this._handleKeyboardEventListener);
 
     };
 
     Gamepad.prototype.destroy = function () {
 
-        _cancelAnimationFrame(this._requestAnimation);
-
-        document.removeEventListener('keydown', this._handleKeyboardEventListener);
-        document.removeEventListener('keyup', this._handleKeyboardEventListener);
+        this.pause();
 
         delete this._listeners;
 
