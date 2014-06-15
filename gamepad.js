@@ -13,10 +13,14 @@
     var _requestAnimationFrame,
         _cancelAnimationFrame;
 
-    ['webkit', 'moz'].forEach(function (key) {
-        _requestAnimationFrame = _requestAnimationFrame || window.requestAnimationFrame || window[key + 'RequestAnimationFrame'] || null;
-        _cancelAnimationFrame = _cancelAnimationFrame || window.cancelAnimationFrame || window[key + 'CancelAnimationFrame'] || null;
-    });
+    if (String(typeof window) !== 'undefined') {
+
+        ['webkit', 'moz'].forEach(function (key) {
+            _requestAnimationFrame = _requestAnimationFrame || window.requestAnimationFrame || window[key + 'RequestAnimationFrame'] || null;
+            _cancelAnimationFrame = _cancelAnimationFrame || window.cancelAnimationFrame || window[key + 'CancelAnimationFrame'] || null;
+        });
+
+    }
 
     function isArray(obj) {
 
@@ -94,8 +98,10 @@
 
         this._requestAnimation = _requestAnimationFrame(this._loop.bind(this));
 
-        document.addEventListener('keydown', this._handleKeyboardEventListener.bind(this));
-        document.addEventListener('keyup', this._handleKeyboardEventListener.bind(this));
+        this._handleKeyboardEventListener = this._handleKeyboardEventListener.bind(this);
+
+        document.addEventListener('keydown', this._handleKeyboardEventListener);
+        document.addEventListener('keyup', this._handleKeyboardEventListener);
 
     }
 
@@ -319,9 +325,20 @@
 
     };
 
+    Gamepad.prototype.destroy = function () {
+
+        _cancelAnimationFrame(this._requestAnimation);
+
+        document.removeEventListener('keydown', this._handleKeyboardEventListener);
+        document.removeEventListener('keyup', this._handleKeyboardEventListener);
+
+        delete this._listeners;
+
+    };
+
     if (typeof define === 'function' && define.amd !== undefined) {
 
-        define([], Gamepad);
+        define([], function () { return Gamepad; });
 
     } else if (typeof module === 'object' && module.exports !== undefined) {
 
