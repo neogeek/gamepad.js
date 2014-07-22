@@ -1,3 +1,5 @@
+[![](https://david-dm.org/neogeek/Gamepad.js/dev-status.svg)](https://david-dm.org/neogeek/Gamepad.js#info=devDependencies)
+
 #gamepad.js
 
 > Simple customizable event binding for the HTML Gamepad API.
