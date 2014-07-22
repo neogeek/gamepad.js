@@ -24,23 +24,23 @@
 
     function findKeyMapping(index, mapping) {
 
-        var result;
+        var results = [];
 
         Object.keys(mapping).forEach(function (key) {
 
             if (mapping[key] === index) {
 
-                result = key;
+                results.push(key);
 
             } else if (Array.isArray(mapping[key]) && mapping[key].indexOf(index) !== -1) {
 
-                result = key;
+                results.push(key);
 
             }
 
         });
 
-        return result;
+        return results;
 
     }
 
@@ -60,6 +60,7 @@
 
         this._keyMapping = {
             gamepad: {
+                '*': [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
                 'button_1': 0,
                 'button_2': 1,
                 'button_3': 2,
@@ -79,12 +80,13 @@
                 'vendor': 16
             },
             keyboard: {
+                '*': [ 32, 27, 38, 87, 40, 83, 37, 65, 39, 68 ],
                 'button_1': 32,
                 'start': 27,
-                'd_pad_up': [38, 87],
-                'd_pad_down': [40, 83],
-                'd_pad_left': [37, 65],
-                'd_pad_right': [39, 68]
+                'd_pad_up': [ 38, 87 ],
+                'd_pad_down': [ 40, 83 ],
+                'd_pad_left': [ 37, 65 ],
+                'd_pad_right': [ 39, 68 ]
             }
         };
 
@@ -124,31 +126,35 @@
 
             controller.buttons.forEach(function (button, index) {
 
-                var key = findKeyMapping(index, self._keyMapping.gamepad);
+                var keys = findKeyMapping(index, self._keyMapping.gamepad);
 
-                if (key) {
+                if (keys) {
 
-                    if (button.pressed) {
+                    keys.forEach(function (key) {
 
-                        if (!self._events.gamepad[controller.index][key]) {
+                        if (button.pressed) {
 
-                            self._events.gamepad[controller.index][key] = {
-                                pressed: true,
-                                hold: false,
-                                released: false,
-                                player: controller.index
-                            };
+                            if (!self._events.gamepad[controller.index][key]) {
+
+                                self._events.gamepad[controller.index][key] = {
+                                    pressed: true,
+                                    hold: false,
+                                    released: false,
+                                    player: controller.index
+                                };
+
+                            }
+
+                            self._events.gamepad[controller.index][key].value = button.value;
+
+                        } else if (!button.pressed && self._events.gamepad[controller.index][key]) {
+
+                            self._events.gamepad[controller.index][key].released = true;
+                            self._events.gamepad[controller.index][key].hold = false;
 
                         }
 
-                        self._events.gamepad[controller.index][key].value = button.value;
-
-                    } else if (!button.pressed && self._events.gamepad[controller.index][key]) {
-
-                        self._events.gamepad[controller.index][key].released = true;
-                        self._events.gamepad[controller.index][key].hold = false;
-
-                    }
+                    });
 
                 }
 
@@ -160,24 +166,29 @@
 
     Gamepad.prototype._handleKeyboardEventListener = function (e) {
 
-        var key = findKeyMapping(e.keyCode, this._keyMapping.keyboard);
+        var self = this,
+            keys = findKeyMapping(e.keyCode, self._keyMapping.keyboard);
 
-        if (key) {
+        if (keys) {
 
-            if (e.type === 'keydown' && !this._events.keyboard[key]) {
+            keys.forEach(function (key) {
 
-                this._events.keyboard[key] = {
-                    pressed: true,
-                    hold: false,
-                    released: false
-                };
+                if (e.type === 'keydown' && !self._events.keyboard[key]) {
 
-            } else if (e.type === 'keyup' && this._events.keyboard[key]) {
+                    self._events.keyboard[key] = {
+                        pressed: true,
+                        hold: false,
+                        released: false
+                    };
 
-                this._events.keyboard[key].released = true;
-                this._events.keyboard[key].hold = false;
+                } else if (e.type === 'keyup' && self._events.keyboard[key]) {
 
-            }
+                    self._events.keyboard[key].released = true;
+                    self._events.keyboard[key].hold = false;
+
+                }
+
+            });
 
         }
 
