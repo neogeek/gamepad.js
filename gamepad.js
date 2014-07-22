@@ -22,12 +22,6 @@
 
     }
 
-    function isArray(obj) {
-
-        return Object.prototype.toString.call(obj) === '[object Array]' ? true : false;
-
-    }
-
     function findKeyMapping(index, mapping) {
 
         var result;
@@ -38,7 +32,7 @@
 
                 result = key;
 
-            } else if (isArray(mapping[key]) && mapping[key].indexOf(index) !== -1) {
+            } else if (Array.isArray(mapping[key]) && mapping[key].indexOf(index) !== -1) {
 
                 result = key;
 

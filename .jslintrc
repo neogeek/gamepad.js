@@ -1,0 +1,9 @@
+{
+    "browser": true,
+    "nomen": true,
+    "predef": [
+        "define",
+        "module",
+        "require"
+    ]
+}
