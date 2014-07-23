@@ -182,8 +182,8 @@
                 if (Math.abs(axes[0]) > self._threshold || Math.abs(axes[1]) > self._threshold) {
 
                     self._events.axes[controller.index][key] = {
-                        pressed: false,
-                        hold: true,
+                        pressed: self._events.axes[controller.index][key] ? false : true,
+                        hold: self._events.axes[controller.index][key] ? true : false,
                         released: false,
                         value: axes
                     };
