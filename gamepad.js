@@ -48,6 +48,7 @@
 
         this._events = {
             gamepad: [],
+            axes: [],
             keyboard: {}
         };
 
@@ -78,6 +79,10 @@
                 'd_pad_right': 15,
                 'vendor': 16
             },
+            axes: {
+                'stick_axis_left': [0, 2],
+                'stick_axis_right': [2, 4]
+            },
             keyboard: {
                 'button_1': 32,
                 'start': 27,
@@ -87,6 +92,8 @@
                 'd_pad_right': [ 39, 68 ]
             }
         };
+
+        this._threshold = 0.3;
 
         this._listeners = [];
 
@@ -153,6 +160,42 @@
                         }
 
                     });
+
+                }
+
+            });
+
+        }
+
+    };
+
+    Gamepad.prototype._handleGamepadAxisEventListener = function (controller) {
+
+        var self = this;
+
+        if (controller && controller.connected) {
+
+            Object.keys(self._keyMapping.axes).forEach(function (key) {
+
+                var axes = Array.prototype.slice.apply(controller.axes, self._keyMapping.axes[key]);
+
+                if (Math.abs(axes[0]) > self._threshold || Math.abs(axes[1]) > self._threshold) {
+
+                    self._events.axes[controller.index][key] = {
+                        pressed: false,
+                        hold: true,
+                        released: false,
+                        value: axes
+                    };
+
+                } else if (self._events.axes[controller.index][key]) {
+
+                    self._events.axes[controller.index][key] = {
+                        pressed: false,
+                        hold: false,
+                        released: true,
+                        value: axes
+                    };
 
                 }
 
@@ -231,16 +274,19 @@
                     self._handleGamepadConnected(i);
 
                     self._events.gamepad[i] = {};
+                    self._events.axes[i] = {};
 
                 }
 
                 self._handleGamepadEventListener(gamepads[i]);
+                self._handleGamepadAxisEventListener(gamepads[i]);
 
             } else if (self._events.gamepad[i]) {
 
                 self._handleGamepadDisconnected(i);
 
                 self._events.gamepad[i] = null;
+                self._events.axes[i] = null;
 
             }
 
@@ -253,6 +299,20 @@
         });
 
         self._events.gamepad.forEach(function (gamepad, player) {
+
+            if (gamepad) {
+
+                Object.keys(gamepad).forEach(function (key) {
+
+                    self._handleEvent(key, gamepad, player);
+
+                });
+
+            }
+
+        });
+
+        self._events.axes.forEach(function (gamepad, player) {
 
             if (gamepad) {
 
