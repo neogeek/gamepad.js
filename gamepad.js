@@ -60,7 +60,6 @@
 
         this._keyMapping = {
             gamepad: {
-                '*': [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
                 'button_1': 0,
                 'button_2': 1,
                 'button_3': 2,
@@ -80,7 +79,6 @@
                 'vendor': 16
             },
             keyboard: {
-                '*': [ 32, 27, 38, 87, 40, 83, 37, 65, 39, 68 ],
                 'button_1': 32,
                 'start': 27,
                 'd_pad_up': [ 38, 87 ],
@@ -278,6 +276,8 @@
 
     Gamepad.prototype.on = function (type, button, callback, options) {
 
+        var self = this;
+
         if (Object.keys(this._handlers.gamepad).indexOf(type) !== -1 && typeof button === 'function') {
 
             this._handlers.gamepad[type] = button;
@@ -286,12 +286,24 @@
 
         } else {
 
-            this._listeners.push({
-                type: type,
-                button: button,
-                callback: callback,
-                options: options
-            });
+            if (Array.isArray(button)) {
+
+                button.forEach(function (button) {
+
+                    self.on(type, button, callback, options);
+
+                });
+
+            } else {
+
+                this._listeners.push({
+                    type: type,
+                    button: button,
+                    callback: callback,
+                    options: options
+                });
+
+            }
 
         }
 
