@@ -113,7 +113,7 @@ gamepad.setCustomMapping('keyboard', {
 
 ##Buttons
 
-###Gamepads
+###Gamepad
 
 - **button_1** - A (XBOX) / X (PS3/PS4)
 - **button_2** - B (XBOX) / Circle (PS3/PS4)
@@ -132,6 +132,11 @@ gamepad.setCustomMapping('keyboard', {
 - **d_pad_left** - Left on the D-Pad (XBOX/PS3/PS4)
 - **d_pad_right** - Right on the D-Pad (XBOX/PS3/PS4)
 - **vendor** - XBOX Button (XBOX) / Playstation Button (PS3/PS4)
+
+###Gamepad Analog Sticks
+
+- **stick_axis_left**
+- **stick_axis_right**
 
 ###Keyboard
 
