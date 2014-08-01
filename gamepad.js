@@ -11,7 +11,8 @@
     'use strict';
 
     var _requestAnimationFrame,
-        _cancelAnimationFrame;
+        _cancelAnimationFrame,
+        hasGamepadSupport = window.navigator.getGamepads !== undefined;
 
     if (String(typeof window) !== 'undefined') {
 
@@ -261,68 +262,72 @@
     Gamepad.prototype._loop = function () {
 
         var self = this,
-            gamepads = window.navigator.getGamepads(),
+            gamepads = hasGamepadSupport ? window.navigator.getGamepads() : false,
             length = 4, // length = gamepads.length;
             i;
 
-        for (i = 0; i < length; i = i + 1) {
+        if (gamepads) {
 
-            if (gamepads[i]) {
+            for (i = 0; i < length; i = i + 1) {
 
-                if (!self._events.gamepad[i]) {
+                if (gamepads[i]) {
 
-                    self._handleGamepadConnected(i);
+                    if (!self._events.gamepad[i]) {
 
-                    self._events.gamepad[i] = {};
-                    self._events.axes[i] = {};
+                        self._handleGamepadConnected(i);
+
+                        self._events.gamepad[i] = {};
+                        self._events.axes[i] = {};
+
+                    }
+
+                    self._handleGamepadEventListener(gamepads[i]);
+                    self._handleGamepadAxisEventListener(gamepads[i]);
+
+                } else if (self._events.gamepad[i]) {
+
+                    self._handleGamepadDisconnected(i);
+
+                    self._events.gamepad[i] = null;
+                    self._events.axes[i] = null;
 
                 }
 
-                self._handleGamepadEventListener(gamepads[i]);
-                self._handleGamepadAxisEventListener(gamepads[i]);
-
-            } else if (self._events.gamepad[i]) {
-
-                self._handleGamepadDisconnected(i);
-
-                self._events.gamepad[i] = null;
-                self._events.axes[i] = null;
-
             }
+
+            self._events.gamepad.forEach(function (gamepad, player) {
+
+                if (gamepad) {
+
+                    Object.keys(gamepad).forEach(function (key) {
+
+                        self._handleEvent(key, gamepad, player);
+
+                    });
+
+                }
+
+            });
+
+            self._events.axes.forEach(function (gamepad, player) {
+
+                if (gamepad) {
+
+                    Object.keys(gamepad).forEach(function (key) {
+
+                        self._handleEvent(key, gamepad, player);
+
+                    });
+
+                }
+
+            });
 
         }
 
         Object.keys(self._events.keyboard).forEach(function (key) {
 
             self._handleEvent(key, self._events.keyboard, 'keyboard');
-
-        });
-
-        self._events.gamepad.forEach(function (gamepad, player) {
-
-            if (gamepad) {
-
-                Object.keys(gamepad).forEach(function (key) {
-
-                    self._handleEvent(key, gamepad, player);
-
-                });
-
-            }
-
-        });
-
-        self._events.axes.forEach(function (gamepad, player) {
-
-            if (gamepad) {
-
-                Object.keys(gamepad).forEach(function (key) {
-
-                    self._handleEvent(key, gamepad, player);
-
-                });
-
-            }
 
         });
 
