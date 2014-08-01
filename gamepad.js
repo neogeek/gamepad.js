@@ -383,6 +383,12 @@
 
     };
 
+    Gamepad.prototype.setGlobalThreshold = function (num) {
+
+        this._threshold = parseFloat(num);
+
+    };
+
     Gamepad.prototype.trigger = function (type, button, value, player) {
 
         if (this._listeners) {
