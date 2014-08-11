@@ -1,6 +1,8 @@
 {
     "name": "gamepad.js",
+    "description": "Simple customizable event binding for the HTML Gamepad API.",
     "version": "0.0.4-alpha",
+    "main": "gamepad.js",
     "devDependencies": {
         "grunt": "0.4.5",
         "grunt-contrib-watch": "0.6.1",
