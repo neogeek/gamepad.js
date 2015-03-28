@@ -1,12 +1,12 @@
 [![](https://david-dm.org/neogeek/Gamepad.js/dev-status.svg)](https://david-dm.org/neogeek/Gamepad.js#info=devDependencies)
 
-#gamepad.js
+# gamepad.js
 
 > Simple customizable event binding for the HTML Gamepad API.
 
-##Setup
+## Setup
 
-###Controller Connected
+### Controller Connected
 
 ```javascript
 var gamepad = new Gamepad();
@@ -16,7 +16,7 @@ gamepad.on('connect', function (e) {
 });
 ```
 
-###Controller Disonnected
+### Controller Disconnected
 
 ```javascript
 var gamepad = new Gamepad();
@@ -26,7 +26,7 @@ gamepad.on('disconnect', function (e) {
 });
 ```
 
-###Press
+### Press
 
 ```javascript
 var gamepad = new Gamepad();
@@ -36,7 +36,7 @@ gamepad.on('press', 'button_1', function () {
 });
 ```
 
-###Hold
+### Hold
 
 ```javascript
 var gamepad = new Gamepad();
@@ -46,7 +46,7 @@ gamepad.on('hold', 'button_1', function () {
 });
 ```
 
-###Release
+### Release
 
 ```javascript
 var gamepad = new Gamepad();
@@ -56,9 +56,9 @@ gamepad.on('release', 'button_1', function () {
 });
 ```
 
-##Callback Parameters
+## Callback Parameters
 
-###Button
+### Button
 
 > Returns the name of the button pressed.
 
@@ -70,7 +70,7 @@ gamepad.on('press', 'button_1', function (e) {
 });
 ```
 
-###Player
+### Player
 
 > Returns the index of the controller the button was pressed on.
 
@@ -82,7 +82,7 @@ gamepad.on('press', 'button_1', function (e) {
 });
 ```
 
-###Value
+### Value
 
 > Returns the value of the button being held.
 
@@ -94,7 +94,7 @@ gamepad.on('hold', 'shoulder_bottom_right', function (e) {
 });
 ```
 
-##Custom Mapping
+## Custom Mapping
 
 > Sets custom key mapping.
 
@@ -111,9 +111,35 @@ gamepad.setCustomMapping('keyboard', {
 });
 ```
 
-##Buttons
+## Handling Events
 
-###Gamepad
+### Pause
+
+```javascript
+var gamepad = new Gamepad();
+
+gamepad.pause();
+```
+
+### Resume
+
+```javascript
+var gamepad = new Gamepad();
+
+gamepad.resume();
+```
+
+### Destroy
+
+```javascript
+var gamepad = new Gamepad();
+
+gamepad.destroy();
+```
+
+## Buttons
+
+### Gamepad
 
 - **button_1** - A (XBOX) / X (PS3/PS4)
 - **button_2** - B (XBOX) / Circle (PS3/PS4)
@@ -133,12 +159,12 @@ gamepad.setCustomMapping('keyboard', {
 - **d_pad_right** - Right on the D-Pad (XBOX/PS3/PS4)
 - **vendor** - XBOX Button (XBOX) / Playstation Button (PS3/PS4)
 
-###Gamepad Analog Sticks
+### Gamepad Analog Sticks
 
 - **stick_axis_left**
 - **stick_axis_right**
 
-###Keyboard
+### Keyboard
 
 - **button_1** - SPACE
 - **start** - ESC
@@ -147,6 +173,6 @@ gamepad.setCustomMapping('keyboard', {
 - **d_pad_left** - Left Arrow, A
 - **d_pad_right** - Right Arrow, D
 
-##Support
+## Support
 
-This plugin supports the Playstation 3, Playstation 4 and the XBOX 360 wired and wireless controllers. Support is limited to browsers with the requestAnimationFrame method and latest Gamepad API.
+This plugin supports the Playstation 3, Playstation 4, XBOX 360 and XBOX One wired and wireless controllers. Support is limited to browsers with the requestAnimationFrame method and latest Gamepad API.
