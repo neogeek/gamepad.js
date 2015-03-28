@@ -2,7 +2,7 @@
  * gamepad.js v0.0.4-alpha
  * https://github.com/neogeek/gamepad.js
  *
- * Copyright (c) 2014 Scott Doxey
+ * Copyright (c) 2015 Scott Doxey
  * Released under the MIT license.
  */
 
@@ -407,7 +407,8 @@
                         button: listener.button,
                         value: value,
                         player: player,
-                        event: listener
+                        event: listener,
+                        timestamp: Date.now()
                     });
 
                 }
