@@ -1,5 +1,5 @@
 /*!
- * gamepad.js v0.0.4-alpha
+ * gamepad.js v0.0.5-alpha
  * https://github.com/neogeek/gamepad.js
  *
  * Copyright (c) 2015 Scott Doxey
