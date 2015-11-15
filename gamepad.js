@@ -351,7 +351,27 @@
 
         } else {
 
-            if (Array.isArray(button)) {
+            if (typeof type === "string" && type.match(/\s+/)) {
+
+                type = type.split(/\s+/g);
+
+            }
+
+            if (typeof button === "string" && button.match(/\s+/)) {
+
+                button = button.split(/\s+/g);
+
+            }
+
+            if (Array.isArray(type)) {
+
+                type.forEach(function (type) {
+
+                    self.on(type, button, callback, options);
+
+                });
+
+            } else if (Array.isArray(button)) {
 
                 button.forEach(function (button) {
 

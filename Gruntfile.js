@@ -8,20 +8,13 @@ module.exports = function (grunt) {
 
         pkg: grunt.file.readJSON('package.json'),
 
-        jslint: {
+        jshint: {
 
             client: {
-                src: ['gamepad.js'],
-                directives: {
-                    nomen: true,
-                    globals: {
-                        'document': true,
-                        'define': true,
-                        'module': true,
-                        'require': true,
-                        'window': true
-                    }
-                }
+                options: {
+                    jshintrc: true
+                },
+                src: ['gamepad.js']
             }
 
         },
@@ -39,19 +32,10 @@ module.exports = function (grunt) {
                 }
             }
 
-        },
-
-        watch: {
-
-            default: {
-                files: ['gamepad.js'],
-                tasks: ['jslint', 'uglify']
-            }
-
         }
 
     });
 
-    grunt.registerTask('default', [ 'jslint', 'uglify' ]);
+    grunt.registerTask('default', [ 'jshint', 'uglify' ]);
 
 };

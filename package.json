@@ -1,14 +1,12 @@
 {
-    "name": "gamepad.js",
-    "description": "Simple customizable event binding for the HTML Gamepad API.",
-    "version": "0.0.4-alpha",
-    "main": "gamepad.js",
-    "devDependencies": {
-        "grunt": "0.4.5",
-        "grunt-contrib-watch": "0.6.1",
-        "grunt-contrib-uglify": "0.8.0",
-        "grunt-jslint": "1.1.12",
-        "grunt-notify": "0.4.1",
-        "matchdep": "0.3.0"
-    }
+  "name": "gamepad.js",
+  "description": "Simple customizable event binding for the HTML Gamepad API.",
+  "version": "0.0.5-alpha",
+  "main": "gamepad.js",
+  "devDependencies": {
+    "grunt": "0.4.5",
+    "grunt-contrib-jshint": "0.11.3",
+    "grunt-contrib-uglify": "0.10.1",
+    "matchdep": "1.0.0"
+  }
 }
