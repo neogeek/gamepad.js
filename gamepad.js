@@ -2,7 +2,7 @@
  * gamepad.js v0.0.5-alpha
  * https://github.com/neogeek/gamepad.js
  *
- * Copyright (c) 2015 Scott Doxey
+ * Copyright (c) 2016 Scott Doxey
  * Released under the MIT license.
  */
 
