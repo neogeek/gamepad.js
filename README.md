@@ -1,5 +1,3 @@
-[![](https://david-dm.org/neogeek/Gamepad.js/dev-status.svg)](https://david-dm.org/neogeek/Gamepad.js#info=devDependencies)
-
 # gamepad.js
 
 > Simple customizable event binding for the HTML Gamepad API.
@@ -9,29 +7,29 @@
 ### Controller Connected
 
 ```javascript
-var gamepad = new Gamepad();
+const gamepad = new Gamepad();
 
-gamepad.on('connect', function (e) {
-    console.log('controller ' + e.index + ' connected!');
+gamepad.on('connect', e => {
+    console.log(`controller ${e.index} connected!`);
 });
 ```
 
 ### Controller Disconnected
 
 ```javascript
-var gamepad = new Gamepad();
+const gamepad = new Gamepad();
 
-gamepad.on('disconnect', function (e) {
-    console.log('controller ' + e.index + ' disconnected!');
+gamepad.on('disconnect', e => {
+    console.log(`controller ${e.index} disconnected!`);
 });
 ```
 
 ### Press
 
 ```javascript
-var gamepad = new Gamepad();
+const gamepad = new Gamepad();
 
-gamepad.on('press', 'button_1', function () {
+gamepad.on('press', 'button_1', () => {
     console.log('button 1 was pressed!');
 });
 ```
@@ -39,9 +37,9 @@ gamepad.on('press', 'button_1', function () {
 ### Hold
 
 ```javascript
-var gamepad = new Gamepad();
+const gamepad = new Gamepad();
 
-gamepad.on('hold', 'button_1', function () {
+gamepad.on('hold', 'button_1', () => {
     console.log('button 1 is being held!');
 });
 ```
@@ -49,9 +47,9 @@ gamepad.on('hold', 'button_1', function () {
 ### Release
 
 ```javascript
-var gamepad = new Gamepad();
+const gamepad = new Gamepad();
 
-gamepad.on('release', 'button_1', function () {
+gamepad.on('release', 'button_1', () => {
     console.log('button 1 was released!');
 });
 ```
@@ -63,10 +61,10 @@ gamepad.on('release', 'button_1', function () {
 > Returns the name of the button pressed.
 
 ```javascript
-var gamepad = new Gamepad();
+const gamepad = new Gamepad();
 
-gamepad.on('press', 'button_1', function (e) {
-    console.log(e.button + ' was pressed!');
+gamepad.on('press', 'button_1', e => {
+    console.log(`${e.button} was pressed!`);
 });
 ```
 
@@ -75,10 +73,10 @@ gamepad.on('press', 'button_1', function (e) {
 > Returns the index of the controller the button was pressed on.
 
 ```javascript
-var gamepad = new Gamepad();
+const gamepad = new Gamepad();
 
-gamepad.on('press', 'button_1', function (e) {
-    console.log('player ' + e.player + ' pressed ' + e.button + '!');
+gamepad.on('press', 'button_1', e => {
+    console.log(`player ${e.player} pressed ${e.button}!`);
 });
 ```
 
@@ -87,10 +85,10 @@ gamepad.on('press', 'button_1', function (e) {
 > Returns the value of the button being held.
 
 ```javascript
-var gamepad = new Gamepad();
+const gamepad = new Gamepad();
 
-gamepad.on('hold', 'shoulder_bottom_right', function (e) {
-    console.log('shoulder_bottom_right has a value of ' + e.value + '!');
+gamepad.on('hold', 'shoulder_bottom_right', e => {
+    console.log(`shoulder_bottom_right has a value of ${e.value}!`);
 });
 ```
 
@@ -99,7 +97,7 @@ gamepad.on('hold', 'shoulder_bottom_right', function (e) {
 > Sets custom key mapping.
 
 ```javascript
-var gamepad = new Gamepad();
+const gamepad = new Gamepad();
 
 gamepad.setCustomMapping('keyboard', {
     'button_1': 32,
@@ -116,7 +114,7 @@ gamepad.setCustomMapping('keyboard', {
 ### Pause
 
 ```javascript
-var gamepad = new Gamepad();
+const gamepad = new Gamepad();
 
 gamepad.pause();
 ```
@@ -124,7 +122,7 @@ gamepad.pause();
 ### Resume
 
 ```javascript
-var gamepad = new Gamepad();
+const gamepad = new Gamepad();
 
 gamepad.resume();
 ```
@@ -132,7 +130,7 @@ gamepad.resume();
 ### Destroy
 
 ```javascript
-var gamepad = new Gamepad();
+const gamepad = new Gamepad();
 
 gamepad.destroy();
 ```
