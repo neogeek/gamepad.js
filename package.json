@@ -4,7 +4,9 @@
   "version": "0.0.5-alpha",
   "main": "gamepad.js",
   "devDependencies": {
-    "jslint": "0.10.3",
-    "uglifyjs": "2.4.10"
+    "jslint": "0.10.3"
+  },
+  "scripts": {
+    "test": "jslint gamepad.js"
   }
 }
