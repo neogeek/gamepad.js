@@ -54,6 +54,16 @@ gamepad.on('release', 'button_1', () => {
 });
 ```
 
+### Removing Event Listeners
+
+```javascript
+gamepad.off('release', 'button_1');
+```
+
+```javascript
+gamepad.off(['release'], ['button_1']);
+```
+
 ## Callback Parameters
 
 ### Button

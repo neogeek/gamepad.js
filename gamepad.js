@@ -394,6 +394,50 @@
 
     };
 
+    Gamepad.prototype.off = function (type, button) {
+
+        var self = this;
+
+        if (typeof type === "string" && type.match(/\s+/)) {
+
+            type = type.split(/\s+/g);
+
+        }
+
+        if (typeof button === "string" && button.match(/\s+/)) {
+
+            button = button.split(/\s+/g);
+
+        }
+
+        if (Array.isArray(type)) {
+
+            type.forEach(function (type) {
+
+                self.off(type, button);
+
+            });
+
+        } else if (Array.isArray(button)) {
+
+            button.forEach(function (button) {
+
+                self.off(type, button);
+
+            });
+
+        } else {
+
+            this._listeners = this._listeners.filter(function (listener) {
+
+                return listener.type !== type && listener.button !== button;
+
+            });
+
+        }
+
+    };
+
     Gamepad.prototype.setCustomMapping = function (device, config) {
 
         if (this._keyMapping[device] !== undefined) {
