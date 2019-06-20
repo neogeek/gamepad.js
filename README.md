@@ -149,10 +149,10 @@ gamepad.destroy();
 
 ### Gamepad
 
-- **button_1** - A (XBOX) / X (PS3/PS4)
+- **button_1** - A (XBOX) / Triangle (PS3/PS4)
 - **button_2** - B (XBOX) / Circle (PS3/PS4)
-- **button_3** - X (XBOX) / Square (PS3/PS4)
-- **button_4** - Y (XBOX) / Triangle (PS3/PS4)
+- **button_3** - X (XBOX) / X (PS3/PS4)
+- **button_4** - Y (XBOX) / Square (PS3/PS4)
 - **shoulder_top_left** - LB (XBOX) / L1 (PS3/PS4)
 - **shoulder_top_right** - RB (XBOX) / R1 (PS3/PS4)
 - **shoulder_bottom_left** - LT (XBOX) / L2 (PS3/PS4)
