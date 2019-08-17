@@ -331,7 +331,7 @@
             }else if (self._gpMetaData.mode[controller.index]===1){
                 var b=controller.axes[controller.axes.length-2],j=(a+b)/2,
                     isArPress=self._gpMetaData.dpadLast[0]<=self._threshold,
-                    isALPress=self._gpMetaData.dpadLast[1]>=self._threshold;
+                    isAlPress=self._gpMetaData.dpadLast[1]>=self._threshold;
                 if (Math.abs(b)<self._threshold) {
                 }else if (b<self._threshold) {
                     self.trigger("hold","d_pad_left",j,controller.index);
