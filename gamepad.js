@@ -5,6 +5,10 @@
  * Copyright (c) 2017 Scott Doxey
  * Released under the MIT license.
  */
+ /*!
+  * This version of gamepad.js is modified by lazerbeak12345 for further compatibility. https://github.com/lazerbeak12345
+  * It should now work on **all** PS3 and X-box style d-pads as well as PS4 style d-pads.
+  */
 
 (function () {
 
@@ -100,6 +104,20 @@
 
         this._handleKeyboardEventListener = this._handleKeyboardEventListener.bind(this);
 
+        this._gpMetaData={
+            /** There are three valid modes:
+             ** "standard" (0 or null)
+             **     - the behavior that gamepads are **supposed** to follow.
+             ** "xbox" (1)
+             **     - some gamepads map the d-pad as a pair of axes
+             ** "ps3" (2)
+             **     - ps3-like gamepads use the last axis to yeild a number value of the position of the gamepad. See the code for those values.
+             **/
+            mode:[],
+            dpadLast:[],
+            dpadStart:[],
+        }; 
+
         this.resume();
 
     }
@@ -128,11 +146,15 @@
 
         var self = this;
 
-        if (controller && controller.connected) {
+        //Ignoring gamepads with vendor and id of 0000 here may improove things
+        if (controller && controller.connected) { 
 
             controller.buttons.forEach(function (button, index) {
 
-                var keys = findKeyMapping(index, self._keyMapping.gamepad);
+                var keys = findKeyMapping(
+                    //findKeyMapping(index,self._gpMetaData.mapping[controller.index])-0,//first map to this, then the next
+                    index,
+                    self._keyMapping.gamepad);
 
                 if (keys) {
 
@@ -178,7 +200,11 @@
 
             Object.keys(self._keyMapping.axes).forEach(function (key) {
 
-                var axes = Array.prototype.slice.apply(controller.axes, self._keyMapping.axes[key]);
+                var axes=(self._gpMetaData.mode[controller.index]===2)?
+                    (key==="stick_axis_right"?
+                    ([controller.axes[5],controller.axes[2]*-1])://strange, right? Why 5&2 instead of 2&3? But this is how the right axis on PS3 controllers are. This alone is one reason why I couldn't have just made a mapping modification. Array.slice selects a range of items, and 5&2 are not next to one another.
+                    ([controller.axes[0],controller.axes[1]*-1])):
+                    (Array.prototype.slice.apply(controller.axes, self._keyMapping.axes[key]));//Do what was done before in all other cases.
 
                 if (Math.abs(axes[0]) > self._threshold || Math.abs(axes[1]) > self._threshold) {
 
@@ -202,6 +228,128 @@
 
             });
 
+            var a =controller.axes[controller.axes.length-1];
+
+            if (self._gpMetaData.mode[controller.index]===2) {
+                switch(a) {//here's the magic of ps3 controllers that everyone else just couldn't figure out
+                    case self._gpMetaData.dpadStart[controller.index]:break;
+                    case 1:
+                        self.trigger("hold","d_pad_left",a,controller.index);
+                        self.trigger("hold","d_pad_up",a,controller.index);
+                        if (self._gpMetaData.dpadLast[controller.index]!==a) {
+                            self.trigger("press","d_pad_left",1,controller.index);
+                            self.trigger("press","d_pad_up",1,controller.index);
+                        }
+                        break;
+                    case 0.7142857313156128:
+                        self.trigger("hold","d_pad_left",a,controller.index);
+                        if (self._gpMetaData.dpadLast[controller.index]!==a) {
+                            self.trigger("press","d_pad_left",1,controller.index);
+                        }
+                        break;
+                    case 0.4285714626312256:
+                        self.trigger("hold","d_pad_left",a,controller.index);
+                        self.trigger("hold","d_pad_down",a,controller.index);
+                        if (self._gpMetaData.dpadLast[controller.index]!==a) {
+                        self.trigger("press","d_pad_left",1,controller.index);
+                            self.trigger("press","d_pad_down",1,controller.index);
+                        }
+                        break;
+                    case 0.14285719394683838:
+                        self.trigger("hold","d_pad_down",a,controller.index);
+                        if (self._gpMetaData.dpadLast[controller.index]!==a) {
+                            self.trigger("press","d_pad_down",1,controller.index);
+                        }
+                        break;
+                    case -0.1428571343421936:
+                        self.trigger("hold","d_pad_right",a,controller.index);
+                        self.trigger("hold","d_pad_down",a,controller.index);
+                        if (self._gpMetaData.dpadLast[controller.index]!==a) {
+                            self.trigger("press","d_pad_right",1,controller.index);
+                            self.trigger("press","d_pad_down",1,controller.index);
+                        }
+                        break;
+                    case -0.4285714030265808:
+                        self.trigger("hold","d_pad_right",a,controller.index);
+                        if (self._gpMetaData.dpadLast[controller.index]!==a) {
+                            self.trigger("press","d_pad_right",1,controller.index);
+                        }
+                        break;
+                    case -0.7142857313156128:
+                        self.trigger("hold","d_pad_right",a,controller.index);
+                        self.trigger("hold","d_pad_up",a,controller.index);
+                        if (self._gpMetaData.dpadLast[controller.index]!==a) {
+                            self.trigger("press","d_pad_right",1,controller.index);
+                            self.trigger("press","d_pad_up",1,controller.index);
+                        }
+                        break;
+                    case -1:
+                        self.trigger("hold","d_pad_up",a,controller.index);
+                        if (self._gpMetaData.dpadLast[controller.index]!==a) {
+                            self.trigger("press","d_pad_up",1,controller.index);
+                        }
+                        break;
+                    default:
+                        console.warn("D-pad state:",a,"unknown!");
+                }
+                if (self._gpMetaData.dpadLast[controller.index]!==a) {//last doesn't equal first
+                    switch(self._gpMetaData.dpadLast[controller.index]) {//here's the magic of ps3 controllers that everyone else just couldn't figure out
+                        case self._gpMetaData.dpadStart[controller.index]:break;
+                        case 1:
+                            self.trigger("release","d_pad_left",1,controller.index);
+                            self.trigger("release","d_pad_up",1,controller.index);
+                            break;
+                        case 0.7142857313156128:
+                            self.trigger("release","d_pad_left",1,controller.index);
+                            break;
+                        case 0.4285714626312256:
+                            self.trigger("release","d_pad_left",1,controller.index);
+                            self.trigger("release","d_pad_down",1,controller.index);
+                            break;
+                        case 0.14285719394683838:
+                            self.trigger("release","d_pad_down",1,controller.index);
+                            break;
+                        case -0.1428571343421936:
+                            self.trigger("release","d_pad_right",1,controller.index);
+                            self.trigger("release","d_pad_down",1,controller.index);
+                            break;
+                        case -0.4285714030265808:
+                            self.trigger("release","d_pad_right",1,controller.index);
+                            break;
+                        case -0.7142857313156128:
+                            self.trigger("release","d_pad_right",1,controller.index);
+                            self.trigger("release","d_pad_up",1,controller.index);
+                            break;
+                        case -1:
+                            self.trigger("release","d_pad_up",1,controller.index);
+                            break;
+                        default:
+                            console.warn("D-pad state:",a,"unknown!");
+                    }
+                }
+                self._gpMetaData.dpadLast[controller.index]=a;
+            }else if (self._gpMetaData.mode[controller.index]===1){
+                var b=controller.axes[controller.axes.length-2],j=(a+b)/2,
+                    isArPress=self._gpMetaData.dpadLast[0]<=self._threshold,
+                    isAlPress=self._gpMetaData.dpadLast[1]>=self._threshold;
+                if (Math.abs(b)<self._threshold) {
+                }else if (b<self._threshold) {
+                    self.trigger("hold","d_pad_left",j,controller.index);
+                    if (isAlPress) self.trigger("press","d_pad_left",j,controller.index);
+                }else if (b>self._threshold) {
+                    self.trigger("hold","d_pad_right",j,controller.index);
+                    if (isAlPress) self.trigger("press","d_pad_right",j,controller.index);
+                }
+                if (Math.abs(a)<self._threshold) {
+                }else if (a<self._threshold) {
+                    self.trigger("hold","d_pad_up",j,controller.index);
+                    if (isArPress) self.trigger("press","d_pad_up",j,controller.index);
+                }else if (a>self._threshold) {
+                    self.trigger("hold","d_pad_down",j,controller.index);
+                    if (isArPress) self.trigger("press","d_pad_down",j,controller.index);
+                }
+                self._gpMetaData.dpadLast[controller.index]=[a,b];
+            }
         }
 
     };
@@ -276,8 +424,24 @@
 
                         self._handleGamepadConnected(i);
 
+                        //console.log(gamepads[i]);
+
                         self._events.gamepad[i] = {};
                         self._events.axes[i] = {};
+
+                        self._gpMetaData.mode[i]=0;
+
+                        //Here, we determine if the gamepad needs to be handled specially or not.
+                        if (gamepads[i].axes[gamepads[i].axes.length-1]<-1||gamepads[i].axes[gamepads[i].axes.length-1]>1) {
+                            //The last axe is outside of range; this is a common symptopm of a PS3 controller.
+                            //This last axe is the effective d-pad
+                            self._gpMetaData.mode[i]=2;
+                            self._gpMetaData.dpadLast[i]=gamepads[i].axes[gamepads[i].axes.length-1]-0;
+                            self._gpMetaData.dpadStart[i]=gamepads[i].axes[gamepads[i].axes.length-1]-0;
+                        }else if (gamepads[i].buttons.length<16) {
+                            //console.warn("x-box-like controllers not very well tested: only hold events will be triggered");
+                            self._gpMetaData.mode[i]=1;
+                        }
 
                     }
 
