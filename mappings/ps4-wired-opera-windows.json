@@ -20,6 +20,5 @@
     "d_pad_left": 14,
     "d_pad_right": 15,
     "vendor": 16
-  },
-  "axes": {}
+  }
 }
