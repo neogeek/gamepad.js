@@ -1,12 +1,38 @@
 {
   "name": "gamepad.js",
   "description": "Simple customizable event binding for the HTML Gamepad API.",
-  "version": "0.0.5-alpha",
-  "main": "gamepad.js",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "bowser": "2.10.0"
+  },
   "devDependencies": {
-    "jslint": "0.10.3"
+    "@babel/core": "7.11.1",
+    "@babel/plugin-proposal-class-properties": "7.10.4",
+    "@babel/preset-env": "7.11.0",
+    "babel-loader": "8.1.0",
+    "webpack": "4.44.1",
+    "webpack-cli": "3.3.12"
   },
   "scripts": {
-    "test": "jslint gamepad.js"
-  }
+    "build": "webpack --config webpack.config.js --mode=production"
+  },
+  "license": "MIT",
+  "keywords": [
+    "gamepad",
+    "controller"
+  ],
+  "authors": [
+    {
+      "name": "Scott Doxey",
+      "email": "hello@scottdoxey.com",
+      "homepage": "http://scottdoxey.com/"
+    }
+  ],
+  "homepage": "https://github.com/neogeek/gamepad.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/neogeek/gamepad.js.git"
+  },
+  "private": true
 }

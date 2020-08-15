@@ -4,183 +4,120 @@
 
 ## Setup
 
-### Controller Connected
-
-```javascript
-const gamepad = new Gamepad();
-
-gamepad.on('connect', e => {
-    console.log(`controller ${e.index} connected!`);
-});
+```bash
+$ npm install gamepad.js
 ```
 
-### Controller Disconnected
-
 ```javascript
 const gamepad = new Gamepad();
 
-gamepad.on('disconnect', e => {
-    console.log(`controller ${e.index} disconnected!`);
-});
+gamepad.start();
 ```
 
-### Press
+## Usage
+
+### Pressed
 
 ```javascript
 const gamepad = new Gamepad();
 
-gamepad.on('press', 'button_1', () => {
-    console.log('button 1 was pressed!');
+gamepad.on('pressed', 'button_1', ({ id, gamepadIndex, value }) => {
+    console.log(
+        `${id} was pressed by player ${
+            gamepadIndex + 1
+        } with a value of ${value}!`
+    );
 });
+
+gamepad.start();
 ```
 
-### Hold
+### Held
 
 ```javascript
 const gamepad = new Gamepad();
 
-gamepad.on('hold', 'button_1', () => {
-    console.log('button 1 is being held!');
+gamepad.on('held', 'button_1', ({ id, gamepadIndex, value }) => {
+    console.log(
+        `${id} is being held by player ${
+            gamepadIndex + 1
+        } with a value of ${value}!`
+    );
 });
+
+gamepad.start();
 ```
 
-### Release
+### Released
 
 ```javascript
 const gamepad = new Gamepad();
 
-gamepad.on('release', 'button_1', () => {
-    console.log('button 1 was released!');
+gamepad.on('released', 'button_1', ({ id, gamepadIndex, value }) => {
+    console.log(
+        `${id} was released by player ${
+            gamepadIndex + 1
+        } with a value of ${value}!`
+    );
 });
+
+gamepad.start();
+```
+
+### Axes
+
+```javascript
+const gamepad = new Gamepad();
+
+gamepad.on('axes', 0, ({ id, gamepadIndex, value }) => {
+    console.log(
+        `${id} was held by player ${gamepadIndex + 1} with a value of ${value}!`
+    );
+});
+
+gamepad.on('axes', 1, ({ id, gamepadIndex, value }) => {
+    console.log(
+        `${id} was held by player ${gamepadIndex + 1} with a value of ${value}!`
+    );
+});
+
+gamepad.start();
 ```
 
 ### Removing Event Listeners
 
 ```javascript
-gamepad.off('release', 'button_1');
+gamepad.off('pressed', 'button_1');
+
+gamepad.off('held', 'button_1');
+
+gamepad.off('released', 'button_1');
 ```
 
-```javascript
-gamepad.off(['release'], ['button_1']);
-```
+## Migrating from v0.x to v1
 
-## Callback Parameters
-
-### Button
-
-> Returns the name of the button pressed.
-
-```javascript
-const gamepad = new Gamepad();
-
-gamepad.on('press', 'button_1', e => {
-    console.log(`${e.button} was pressed!`);
-});
-```
-
-### Player
-
-> Returns the index of the controller the button was pressed on.
-
-```javascript
-const gamepad = new Gamepad();
-
-gamepad.on('press', 'button_1', e => {
-    console.log(`player ${e.player} pressed ${e.button}!`);
-});
-```
-
-### Value
-
-> Returns the value of the button being held.
-
-```javascript
-const gamepad = new Gamepad();
-
-gamepad.on('hold', 'shoulder_bottom_right', e => {
-    console.log(`shoulder_bottom_right has a value of ${e.value}!`);
-});
-```
-
-## Custom Mapping
-
-> Sets custom key mapping.
-
-```javascript
-const gamepad = new Gamepad();
-
-gamepad.setCustomMapping('keyboard', {
-    'button_1': 32,
-    'start': 27,
-    'd_pad_up': [38, 87],
-    'd_pad_down': [40, 83],
-    'd_pad_left': [37, 65],
-    'd_pad_right': [39, 68]
-});
-```
-
-## Handling Events
-
-### Pause
-
-```javascript
-const gamepad = new Gamepad();
-
-gamepad.pause();
-```
-
-### Resume
-
-```javascript
-const gamepad = new Gamepad();
-
-gamepad.resume();
-```
-
-### Destroy
-
-```javascript
-const gamepad = new Gamepad();
-
-gamepad.destroy();
-```
-
-## Buttons
-
-### Gamepad
-
-- **button_1** - A (XBOX) / X (PS3/PS4)
-- **button_2** - B (XBOX) / Circle (PS3/PS4)
-- **button_3** - X (XBOX) / Square (PS3/PS4)
-- **button_4** - Y (XBOX) / Triangle (PS3/PS4)
-- **shoulder_top_left** - LB (XBOX) / L1 (PS3/PS4)
-- **shoulder_top_right** - RB (XBOX) / R1 (PS3/PS4)
-- **shoulder_bottom_left** - LT (XBOX) / L2 (PS3/PS4)
-- **shoulder_bottom_right** - RT (XBOX) / R2 (PS3/PS4)
-- **select** - Back (XBOX) / Select (PS3/PS4)
-- **start** - Start (XBOX/PS3/PS4)
-- **stick_button_left** - Left Analog Stick (XBOX/PS3/PS4)
-- **stick_button_right** - Right Analog Stick (XBOX/PS3/PS4)
-- **d_pad_up** - Up on the D-Pad (XBOX/PS3/PS4)
-- **d_pad_down** - Down on the D-Pad (XBOX/PS3/PS4)
-- **d_pad_left** - Left on the D-Pad (XBOX/PS3/PS4)
-- **d_pad_right** - Right on the D-Pad (XBOX/PS3/PS4)
-- **vendor** - XBOX Button (XBOX) / Playstation Button (PS3/PS4)
-
-### Gamepad Analog Sticks
-
-- **stick_axis_left**
-- **stick_axis_right**
-
-### Keyboard
-
-- **button_1** - SPACE
-- **start** - ESC
-- **d_pad_up** - Up Arrow, W
-- **d_pad_down** - Down Arrow, S
-- **d_pad_left** - Left Arrow, A
-- **d_pad_right** - Right Arrow, D
+1. All keypad support has been removed to reduce complexity in the package.
+1. Gamepad type `press` is now `pressed` to conform to the browser standard.
+1. Gamepad type `hold` is now `held`.
+1. Gamepad type `release` is now `released`.
 
 ## Support
 
-This plugin supports the Playstation 3, Playstation 4, XBOX 360 and XBOX One wired and wireless controllers. Support is limited to browsers with the requestAnimationFrame method and latest Gamepad API.
+The Gamepad browser API is very fragmented. VERY. Because of this we need your help. If you have a gamepad that isn't listed below, please visit the [Gamepad.js Recorder](#) and follow the instructions to create a controller mapping file. Either submit that in an issue or a PR. Once the mapping has been confirmed by at least one other user, it can be merged into the repo and it will be avaible in the next deploy.
+
+| Controller       | Browser        | OS      | Supported |
+| ---------------- | -------------- | ------- | :-------: |
+| PS4 Wired        | Chrome         | Windows |    ✅     |
+| PS4 Wired        | Firefox        | Windows |    ✅     |
+| PS4 Wired        | Microsoft Edge | Windows |    ✅     |
+| PS4 Wired        | Opera          | Windows |    ✅     |
+| Switch Pro Wired | Chrome         | macOS   |    ✅     |
+| Switch Pro Wired | Firefox        | macOS   |    ❌     |
+| Switch Pro Wired | Opera          | macOS   |    ✅     |
+| Xbox One Wired   | Chrome         | macOS   |    ✅     |
+| Xbox One Wired   | Chrome         | Windows |    ✅     |
+| Xbox One Wired   | Firefox        | macOS   |    ✅     |
+| Xbox One Wired   | Firefox        | Windows |    ✅     |
+| Xbox One Wired   | Microsoft Edge | Windows |    ✅     |
+| Xbox One Wired   | Opera          | Windows |    ✅     |
+| Xbox One Wired   | Safari         | macOS   |    ✅     |

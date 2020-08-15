@@ -1,0 +1,24 @@
+{
+  "id": "45e-2d1-Xbox One Wired Controller",
+  "friendlyName": "Xbox One",
+  "browser": "Firefox",
+  "os": "macOS",
+  "buttons": {
+    "button_1": 11,
+    "button_2": 12,
+    "button_3": 13,
+    "button_4": 14,
+    "shoulder_top_left": 8,
+    "shoulder_top_right": 9,
+    "select": 5,
+    "start": 4,
+    "stick_button_left": 6,
+    "stick_button_right": 7,
+    "d_pad_up": 0,
+    "d_pad_down": 1,
+    "d_pad_left": 2,
+    "d_pad_right": 3,
+    "vendor": 10
+  },
+  "axes": {}
+}
