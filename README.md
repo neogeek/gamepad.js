@@ -1,6 +1,6 @@
 # gamepad.js
 
-> Simple customizable event binding for the HTML Gamepad API.
+> 🎮 Simple customizable event binding for the HTML Gamepad API.
 
 ## Setup
 
@@ -103,7 +103,7 @@ gamepad.off('released', 'button_1');
 
 ## Support
 
-The Gamepad browser API is very fragmented. VERY. Because of this we need your help. If you have a gamepad that isn't listed below, please visit the [Gamepad.js Recorder](#) and follow the instructions to create a controller mapping file. Either submit that in an issue or a PR. Once the mapping has been confirmed by at least one other user, it can be merged into the repo and it will be avaible in the next deploy.
+The Gamepad browser API is very fragmented. VERY. Because of this we need your help. If you have a gamepad that isn't listed below, please visit the [Gamepad.js Recorder](https://u4o9w.csb.app/) and follow the instructions to create a controller mapping file. Either submit that in an issue or a PR. Once the mapping has been confirmed by at least one other user, it can be merged into the repo and it will be avaible in the next deploy.
 
 | Controller       | Browser        | OS      | Supported |
 | ---------------- | -------------- | ------- | :-------: |
