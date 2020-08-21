@@ -15,7 +15,8 @@
     "webpack-cli": "3.3.12"
   },
   "scripts": {
-    "build": "webpack --config webpack.config.js --mode=production"
+    "build": "webpack --config webpack.config.js --mode=production",
+    "bundle": "node ./bin/bundle_mappings.js > mappings.json"
   },
   "license": "MIT",
   "keywords": [
