@@ -107,17 +107,26 @@ The Gamepad browser API is very fragmented. VERY. Because of this we need your h
 
 | Controller       | Browser        | OS      | Supported |
 | ---------------- | -------------- | ------- | :-------: |
+| PS4 Wired        | Chrome         | macOS   |    ❌     |
 | PS4 Wired        | Chrome         | Windows |    ✅     |
+| PS4 Wired        | Firefox        | macOS   |    ❌     |
 | PS4 Wired        | Firefox        | Windows |    ✅     |
 | PS4 Wired        | Microsoft Edge | Windows |    ✅     |
+| PS4 Wired        | Opera          | macOS   |    ❌     |
 | PS4 Wired        | Opera          | Windows |    ✅     |
+| PS4 Wired        | Safari         | macOS   |    ❌     |
 | Switch Pro Wired | Chrome         | macOS   |    ✅     |
+| Switch Pro Wired | Chrome         | Windows |    ✅     |
 | Switch Pro Wired | Firefox        | macOS   |    ❌     |
+| Switch Pro Wired | Firefox        | Windows |    ❌     |
 | Switch Pro Wired | Opera          | macOS   |    ✅     |
+| Switch Pro Wired | Opera          | Windows |    ❌     |
+| Switch Pro Wired | Safari         | macOS   |    ❌     |
 | Xbox One Wired   | Chrome         | macOS   |    ✅     |
 | Xbox One Wired   | Chrome         | Windows |    ✅     |
 | Xbox One Wired   | Firefox        | macOS   |    ✅     |
 | Xbox One Wired   | Firefox        | Windows |    ✅     |
 | Xbox One Wired   | Microsoft Edge | Windows |    ✅     |
+| Xbox One Wired   | Opera          | macOS   |    ❌     |
 | Xbox One Wired   | Opera          | Windows |    ✅     |
 | Xbox One Wired   | Safari         | macOS   |    ✅     |
