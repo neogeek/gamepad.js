@@ -127,6 +127,6 @@ The Gamepad browser API is very fragmented. VERY. Because of this we need your h
 | Xbox One Wired   | Firefox        | macOS   |    ✅     |
 | Xbox One Wired   | Firefox        | Windows |    ✅     |
 | Xbox One Wired   | Microsoft Edge | Windows |    ✅     |
-| Xbox One Wired   | Opera          | macOS   |    ❌     |
+| Xbox One Wired   | Opera          | macOS   |    ✅     |
 | Xbox One Wired   | Opera          | Windows |    ✅     |
 | Xbox One Wired   | Safari         | macOS   |    ✅     |
