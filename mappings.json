@@ -101,6 +101,7 @@
   },
   {
     "id": "Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 05c4)",
+    "friendlyName": "PS4",
     "browser": "Opera",
     "os": "Windows",
     "buttons": {
@@ -125,6 +126,7 @@
   },
   {
     "id": "Pro Controller (STANDARD GAMEPAD Vendor: 057e Product: 2009)",
+    "friendlyName": "Switch Pro",
     "browser": "Chrome",
     "os": "macOS",
     "buttons": {
@@ -149,6 +151,7 @@
   },
   {
     "id": "Pro Controller (STANDARD GAMEPAD Vendor: 057e Product: 2009)",
+    "friendlyName": "Switch Pro",
     "browser": "Chrome",
     "os": "Windows",
     "buttons": {
@@ -173,6 +176,7 @@
   },
   {
     "id": "Pro Controller (STANDARD GAMEPAD Vendor: 057e Product: 2009)",
+    "friendlyName": "Switch Pro",
     "browser": "Opera",
     "os": "macOS",
     "buttons": {
@@ -327,8 +331,8 @@
       "button_4": 3,
       "shoulder_top_left": 4,
       "shoulder_top_right": 5,
-      "shoulder_bottom_right": 7,
       "shoulder_bottom_left": 6,
+      "shoulder_bottom_right": 7,
       "select": 8,
       "start": 9,
       "stick_button_left": 10,
@@ -342,6 +346,7 @@
   },
   {
     "id": "Xbox 360 Controller (XInput STANDARD GAMEPAD)",
+    "friendlyName": "Xbox One",
     "browser": "Opera",
     "os": "Windows",
     "buttons": {
