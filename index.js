@@ -1,6 +1,6 @@
 const Bowser = require('bowser');
 
-const mappings = require('./mappings');
+const mappings = require('./mappings.json');
 
 const _requestAnimation = new Set('_requestAnimation');
 const _previousGamepadsState = new Set('_previousGamepadsState');
