@@ -20,4 +20,4 @@ readdir(dir)
             )
         )
     )
-    .then(files => process.stdout.write(JSON.stringify(files, null, 4)));
+    .then(files => process.stdout.write(`${JSON.stringify(files, null, 2)}\n`));
