@@ -5,7 +5,7 @@
 ## Setup
 
 ```bash
-$ npm install gamepad.js
+$ npm install neogeek/gamepad.js
 ```
 
 ```javascript
